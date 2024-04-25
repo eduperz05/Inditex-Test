@@ -10,18 +10,6 @@ public class ProductPrice {
     final Double price;
     final Currency currency;
 
-    public static ProductPrice EURPrice(PriceId priceList, Duration temporalMoment, Integer priority, Double price) {
-        return new ProductPrice(priceList, temporalMoment, priority, price, Currency.EUR);
-    }
-
-    public static ProductPrice USDPrice(PriceId priceList, Duration temporalMoment, Integer priority, Double price) {
-        return new ProductPrice(priceList, temporalMoment, priority, price, Currency.USD);
-    }
-
-    public static ProductPrice GBPPrice(PriceId priceList, Duration temporalMoment, Integer priority, Double price) {
-        return new ProductPrice(priceList, temporalMoment, priority, price, Currency.GBP);
-    }
-
     public ProductPrice(PriceId priceList, Duration temporalMoment, Integer priority, Double price, Currency currency) {
         this.priceList = priceList;
         this.temporalMoment = temporalMoment;

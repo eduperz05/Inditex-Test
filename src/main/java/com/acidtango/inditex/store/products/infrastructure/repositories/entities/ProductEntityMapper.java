@@ -27,17 +27,4 @@ public class ProductEntityMapper {
                 )
         );
     }
-
-    public static ProductEntity mapToEntity(TempProduct tempProduct) {
-        return new ProductEntity(
-                null,
-                tempProduct.toPrimitives().brandId(),
-                tempProduct.toPrimitives().price().startDate(),
-                tempProduct.toPrimitives().price().endDate(),
-                tempProduct.toPrimitives().price().id(),
-                tempProduct.toPrimitives().id(),
-                tempProduct.toPrimitives().price().priority(),
-                tempProduct.toPrimitives().price().price(),
-                tempProduct.toPrimitives().price().currency().name());
-    }
 }

@@ -8,11 +8,8 @@
 - [Inditex Caso Práctico](#inditex-caso-pr-ctico)
     * [Índice](#-ndice)
     * [Enunciado](#enunciado)
-    * [DDD estratégico: Planteamiento y análisis](#ddd-estrat-gico--planteamiento-y-an-lisis)
-    * [DDD táctico: implementación](#ddd-t-ctico--implementaci-n)
-        + [DDD purista](#ddd-purista)
-        + [ID Incrementales](#id-incrementales)
-        + [Naming de los casos de uso](#naming-de-los-casos-de-uso)
+    * [DDD](#ddd)
+        + [Planteamiento y análisis](#planteamiento-y-an-lisis)
     * [Testing](#testing)
         + [Controller](#controller)
         + [Use Cases](#use-cases)
@@ -68,42 +65,24 @@ Calidad de Código.
 Resultados correctos en los test.
 
 
-## DDD estratégico: Planteamiento y análisis
+## DDD 
 
-Para poder abordar el problema, he analizado el enunciado para intentar extraer el [lenguaje ubicuo][ubiquitous language]. No hay demasiado que sacar aquí, pero he podido extrar el concepto de **Producto** (`temporalProduct`), **Brand** (`brand`), **Precio ** (`price`), y **criterios** (`criteria`).
+### Planteamiento y análisis
 
-Una vez hecho esto, he realizado un mini workshop de [Event Storming][event storming] para explorar aún más el lenguaje ubicuo y empezar a modelar los eventos, comandos, agregados y entidades que podrían tener lugar en este proyecto ficticio. [Este es el enlace para poder ver el board en Miro][event storming workshop].
+
+Para abordar el problema, analicé el enunciado para identificar el lenguaje natural referente al modelo de negocio. Aunque hay poco que extraer, logré identificar los conceptos clave de Producto (temporalProduct), Brand (brand), Precio (price) y criterios (criteria).
+
+Una vez hecho esto y siguiendo el consejo de un profesor, he realizado un event storming [Event Storming][event storming] para empezar a modelar los eventos, comandos, agregados y entidades que podrían tener lugar en este proyecto ficticio. [Este es el enlace para poder ver el board en Miro][event storming workshop].
 
 ![Captura del Miro del workshop de Event Storming](./docs/images/event-storming-workshop.png)
 
-Finalmente, he pasado a limpio el workshop y me he quedado con 3 agregados para simplificar el problema:
+Finalmente me quedo con un único agregado al problema:
 
 ![Simple diagrama de agregados y entidades](./docs/images/aggregates-and-entities.png)
 
-Para no complicarlo más, he decidido tener un único core domain con un único bounded context, llamado **Store**.
-
-Finalmente, tenemos un único agregado:
 * TemporalProduct: Encargado de reflejar el precio que tendrá un producto en un momento dado.
 
-## DDD táctico: implementación
-
-### DDD purista
-
-En esta prueba he decidido implementar todo de forma muy purista. Absolutamente, nada de la capa de dominio o aplicación dependen de elementos de infraestructura o elementos del framework.
-
-Esto tiene ventajas y desventajas. La ventaja es que podemos cambiar la implementación de cualquiera de los repositorios de manera trivial y aislada. Si mañana tomamos la decisión de mover el repositorio de productos a un MongoDB, cambiar de un RabbitMQ a un SQS, se nos actualiza la librería de persistencia, o cualquier problema relacionado con terceros, solo tenemos un único punto donde tocar nuestro código. El framework no está contaminando nuestro código.
-
-La desventaja es que esto aumenta mucho la complejidad del proyecto, ya que tenemos que serializar y deserializar los objetos cada vez que atravesamos las capas de la arquitectura hexagonal. Estas decisiones "puristas" tienen impacto, y es algo que hay que saber manejar y analizar los riesgos y costes que tenemos al acoplarnos al framework, o no.
-
-### ID Incrementales
-
-En el enunciado los productos tienen un ID incremental. El problema con los ID incrementales, es que si los generamos por la BBDD, esta propiedad es nula en su momento de creación, lo cual nos obliga a gestionar nulos para su creación.
-
-De todas maneras, en mi experiencia es más sencillo implementar los identificadores como UUID, ya que esto abre las puertas a futuro a tener una arquitectura más asíncrona y escalable.
-
-### Naming de los casos de uso
-
-Es una buena práctica que nuestras clases tengan un sustantivo por nombre como `ProductCreator`, pero en el caso particular de los casos de uso, en mi opinión, aporta más legibilidad que se llame como una acción, por ejemplo `CreateProduct`.
+Para no complicarlo más, he decidido tener un único core domain con un único bounded context, llamado **Store**.
 
 ## Testing
 

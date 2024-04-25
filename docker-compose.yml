@@ -1,0 +1,8 @@
+# This docker compose is for local development purposes
+
+version: "3.7"
+services:
+  api:
+    build: .
+    ports:
+      - "8080:8080"
